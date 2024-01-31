@@ -8,5 +8,4 @@ class CourseTaken(
     var credits: Int
 ) {
     //Medthods
-
 }
