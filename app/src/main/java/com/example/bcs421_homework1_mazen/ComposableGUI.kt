@@ -21,7 +21,10 @@ fun displayHeading(heading: String) {
         text = heading,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold,
-        style = MaterialTheme.typography.headlineMedium
+        style = MaterialTheme.typography.headlineMedium,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
     )
 }
 
@@ -30,28 +33,9 @@ fun displayNormalText(text: String) {
     Text(
         text = text,
         color = Color.Magenta,
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
+        modifier = Modifier.padding(vertical = 2.dp)
     )
-}
-
-
-@Composable
-fun displayCourseInfo(course: CourseTaken) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp),
-        shape = RoundedCornerShape(10.dp),
-        shadowElevation = 30.dp
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(8.dp))
-            displayNormalText("Start Time:${course.courseName} ${course.startTime} ${course.endTime} ${course.days} ${course.credits}")
-        }
-    }
 }
 
 @Composable
@@ -64,16 +48,37 @@ fun displayStudentInfo(student: Student) {
         shadowElevation = 30.dp
     ) {
         Column(
+            modifier = Modifier
+                .padding(12.dp)
         ) {
             displayHeading("Student Information")
             Spacer(modifier = Modifier.height(8.dp))
-            displayNormalText("Name: ${student.name()}") // Replace with actual student name
+            displayNormalText("Name: ${student.name()}")
             displayNormalText("Total Credits: ${student.totalCredits()}")
         }
 
 
     }
 }
+
+@Composable
+fun displayCourseInfo(course: CourseTaken) {
+//    Surface(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .padding(20.dp),
+//        shape = RoundedCornerShape(10.dp),
+//        shadowElevation = 30.dp
+//    ) {
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+    ) {
+        displayNormalText("${course.courseName} ${course.days} ${course.startTime} ${course.endTime}")
+    }
+    //}
+}
+
 
 @Composable
 fun displayStudentSchd(student: Student) {
@@ -84,18 +89,15 @@ fun displayStudentSchd(student: Student) {
         shape = RoundedCornerShape(10.dp),
         shadowElevation = 30.dp
     ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
+        Column {
             displayHeading("Student Schedule")
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Display each individual course taken using a function
-            student.coursesTaken.forEach { course ->
+            for (course in student.coursesTaken) {
                 displayCourseInfo(course)
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.)
             }
+
         }
 
     }
