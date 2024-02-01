@@ -7,5 +7,4 @@ class CourseTaken(
     var days: String,
     var credits: Int
 ) {
-    //Medthods
 }

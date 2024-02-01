@@ -1,20 +1,23 @@
 package com.example.bcs421_homework1_mazen
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-
 @Composable
 fun displayHeading(heading: String) {
     Text(
@@ -24,7 +27,8 @@ fun displayHeading(heading: String) {
         style = MaterialTheme.typography.headlineMedium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+
+
     )
 }
 
@@ -34,7 +38,7 @@ fun displayNormalText(text: String) {
         text = text,
         color = Color.Magenta,
         style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(vertical = 2.dp)
+        modifier = Modifier.padding(6.dp)
     )
 }
 
@@ -47,41 +51,27 @@ fun displayStudentInfo(student: Student) {
         shape = RoundedCornerShape(10.dp),
         shadowElevation = 30.dp
     ) {
-        Column(
-            modifier = Modifier
-                .padding(12.dp)
-        ) {
-            displayHeading("Student Information")
-            Spacer(modifier = Modifier.height(8.dp))
-            displayNormalText("Name: ${student.name()}")
-            displayNormalText("Total Credits: ${student.totalCredits()}")
+        Column {
+            displayHeading("Student Name and Credits")
+            displayNormalText(student.name)
+            displayNormalText(student.totalCredits().toString())
         }
-
-
     }
 }
 
 @Composable
 fun displayCourseInfo(course: CourseTaken) {
-//    Surface(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(20.dp),
-//        shape = RoundedCornerShape(10.dp),
-//        shadowElevation = 30.dp
-//    ) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .fillMaxWidth()
     ) {
         displayNormalText("${course.courseName} ${course.days} ${course.startTime} ${course.endTime}")
     }
-    //}
 }
 
 
 @Composable
-fun displayStudentSchd(student: Student) {
+fun displayStudentSchedule(student: Student) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,75 +81,72 @@ fun displayStudentSchd(student: Student) {
     ) {
         Column {
             displayHeading("Student Schedule")
-            Spacer(modifier = Modifier.height(8.dp))
 
+            // Display each course in a list
             for (course in student.coursesTaken) {
                 displayCourseInfo(course)
-                Spacer(modifier = Modifier.)
+
             }
-
         }
-
     }
-
 }
-/*
+
+
 @Composable
-fun displayButtons(student: Student) {
+fun displayButtons(Student: Student) {
+
+    val context = LocalContext.current
+
     Surface(
         modifier = Modifier
+            .fillMaxWidth()
             .padding(20.dp),
         shape = RoundedCornerShape(10.dp),
         shadowElevation = 30.dp
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp)
-        ) {
+    ){
+        Row {
             Button(
                 onClick = {
-                    val totalCredits = student.totalCredits()
-                    showToast("Total Credits: $totalCredits")
+                    Toast.makeText(context,"Total Credits: ${Student.totalCredits()}", Toast.LENGTH_SHORT).show()
                 },
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Text(text = "Total Credits")
+                modifier = Modifier.padding(4.dp)
+            ){
+                Text("Total Credits")
             }
+
+            Spacer(modifier = Modifier.width(8.dp))
 
             Button(
                 onClick = {
-                    val optimalStudyHours = student.totalCredits() * 2
-                    showToast("Optimal Study Hours: $optimalStudyHours")
+                    val optimalStudyHours = 2 * Student.totalCredits()
+                    Toast.makeText(context,"Optimal Study Hours $optimalStudyHours", Toast.LENGTH_SHORT).show()
                 },
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Text(text = "Optimal Study Hours")
+                modifier = Modifier.padding(4.dp)
+            ){
+                Text("Optimal Study Hours")
             }
         }
     }
 }
-
-@Composable
-*/
 
 
 @Composable
 fun MainScreen() {
-    val student = Student(
-        coursesTaken = mutableListOf(
-            CourseTaken("BCS 421", "10:00", "11:00", "MW", 3),
-            CourseTaken("CSC 343", "11:00", "12:00", "TR", 3),
-            CourseTaken("CSC 321", "12:00", "1:00", "MW", 3),
-            CourseTaken("CSC 363", "1:00", "2:00", "TR", 3),
-            CourseTaken("ECO 380", "2:00", "3:00", "MW", 3),
-            CourseTaken("ECO 365", "3:00", "4:00", "TR", 3)
-        )
-    )
+    val student = Student("Mazen", "Computer Science")
+    student.coursesTaken.add(CourseTaken("BCS 421", "10:00", "11:00", "MWF", 3))
+    student.coursesTaken.add(CourseTaken("BCS 370", "11:00", "12:00", "MWF", 3))
+    student.coursesTaken.add(CourseTaken("BCS 230", "12:00", "13:00", "MWF", 3))
+    student.coursesTaken.add(CourseTaken("BCS 320", "13:00", "14:00", "MWF", 3))
 
     Column(
         modifier = Modifier.padding(20.dp)
     ) {
         displayStudentInfo(student)
-
-        displayStudentSchd(student)
+        Spacer(
+            modifier = Modifier
+                .padding(20.dp)
+        ) // Add a Spacer for some separation
+        displayStudentSchedule(student)
+        displayButtons(student)
     }
 }
