@@ -18,22 +18,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+
+// Display a heading with specified styling
 @Composable
-fun displayHeading(heading: String) {
+fun DisplayHeading(heading: String) {
     Text(
         text = heading,
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.headlineMedium,
-        modifier = Modifier
-            .fillMaxWidth()
-
-
+        modifier = Modifier.fillMaxWidth()
     )
 }
 
+// Display normal text with specified styling
 @Composable
-fun displayNormalText(text: String) {
+fun DisplayNormalText(text: String) {
     Text(
         text = text,
         color = Color.Magenta,
@@ -42,8 +42,9 @@ fun displayNormalText(text: String) {
     )
 }
 
+// Display student information in a Surface
 @Composable
-fun displayStudentInfo(student: Student) {
+fun DisplayStudentInfo(student: Student) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,26 +53,27 @@ fun displayStudentInfo(student: Student) {
         shadowElevation = 30.dp
     ) {
         Column {
-            displayHeading("Student Name and Credits")
-            displayNormalText(student.name)
-            displayNormalText(student.totalCredits().toString())
+            DisplayHeading("Student Name and Credits")
+            DisplayNormalText(student.name)
+            DisplayNormalText(student.totalCredits().toString())
         }
     }
 }
 
+// Display course information in a Column
 @Composable
-fun displayCourseInfo(course: CourseTaken) {
+fun DisplayCourseInfo(course: CourseTaken) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        displayNormalText("${course.courseName} ${course.days} ${course.startTime} ${course.endTime}")
+        DisplayNormalText("${course.courseName} ${course.days} ${course.startTime} ${course.endTime}")
     }
 }
 
-
+// Display a student's schedule in a Surface
 @Composable
-fun displayStudentSchedule(student: Student) {
+fun DisplayStudentSchedule(student: Student) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,21 +82,19 @@ fun displayStudentSchedule(student: Student) {
         shadowElevation = 30.dp
     ) {
         Column {
-            displayHeading("Student Schedule")
+            DisplayHeading("Student Schedule")
 
             // Display each course in a list
             for (course in student.coursesTaken) {
-                displayCourseInfo(course)
-
+                DisplayCourseInfo(course)
             }
         }
     }
 }
 
-
+// Display buttons for actions related to student information
 @Composable
-fun displayButtons(Student: Student) {
-
+fun DisplayButtons(student: Student) {
     val context = LocalContext.current
 
     Surface(
@@ -103,50 +103,66 @@ fun displayButtons(Student: Student) {
             .padding(20.dp),
         shape = RoundedCornerShape(10.dp),
         shadowElevation = 30.dp
-    ){
+    ) {
         Row {
+            // Button to display total credits
             Button(
                 onClick = {
-                    Toast.makeText(context,"Total Credits: ${Student.totalCredits()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Total Credits: ${student.totalCredits()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 },
                 modifier = Modifier.padding(4.dp)
-            ){
+            ) {
                 Text("Total Credits")
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
+            // Button to display optimal study hours
             Button(
                 onClick = {
-                    val optimalStudyHours = 2 * Student.totalCredits()
-                    Toast.makeText(context,"Optimal Study Hours $optimalStudyHours", Toast.LENGTH_SHORT).show()
+                    val optimalStudyHours = 2 * student.totalCredits()
+                    Toast.makeText(
+                        context,
+                        "Optimal Study Hours: $optimalStudyHours",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 },
                 modifier = Modifier.padding(4.dp)
-            ){
+            ) {
                 Text("Optimal Study Hours")
             }
         }
     }
 }
 
-
+// Main screen composition
 @Composable
 fun MainScreen() {
-    val student = Student("Mazen", "Computer Science")
-    student.coursesTaken.add(CourseTaken("BCS 421", "10:00", "11:00", "MWF", 3))
-    student.coursesTaken.add(CourseTaken("BCS 370", "11:00", "12:00", "MWF", 3))
-    student.coursesTaken.add(CourseTaken("BCS 230", "12:00", "13:00", "MWF", 3))
-    student.coursesTaken.add(CourseTaken("BCS 320", "13:00", "14:00", "MWF", 3))
+    val student = Student("Mazen Kapadi", "Computer Science")
+    // Adding courses to the student's schedule
+    student.coursesTaken.add(CourseTaken("BCS 421", "10:50", "12:05", "MW", 3))
+    student.coursesTaken.add(CourseTaken("CSC 321", "08:00", "09:25", "MW", 3))
+    student.coursesTaken.add(CourseTaken("CSC 343", "13:40", "14:55", "T", 3))
+    student.coursesTaken.add(CourseTaken("CSC 363", "12:15", "13:30", "TR", 3))
+    student.coursesTaken.add(CourseTaken("ECO 365", "09:25", "10:40", "W", 3))
+    student.coursesTaken.add(CourseTaken("ECO 380", "09:25", "10:40", "T", 3))
 
     Column(
         modifier = Modifier.padding(20.dp)
     ) {
-        displayStudentInfo(student)
+        // Display student information
+        DisplayStudentInfo(student)
         Spacer(
             modifier = Modifier
                 .padding(20.dp)
         ) // Add a Spacer for some separation
-        displayStudentSchedule(student)
-        displayButtons(student)
+        // Display student schedule
+        DisplayStudentSchedule(student)
+        // Display action buttons
+        DisplayButtons(student)
     }
 }
