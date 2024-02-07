@@ -9,12 +9,10 @@ class Student(
     // Method to calculate the total credits from the list of courses taken
     fun totalCredits(): Int {
         var totalCredits = 0
-
         // Loop through each course in the list of coursesTaken and sum up the credits
         for (course in coursesTaken) {
             totalCredits += course.credits
         }
-
         // Return the total credits
         return totalCredits
     }

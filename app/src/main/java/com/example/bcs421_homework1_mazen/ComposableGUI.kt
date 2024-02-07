@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -27,7 +28,6 @@ fun DisplayHeading(heading: String) {
         color = MaterialTheme.colorScheme.primary,
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.headlineMedium,
-        modifier = Modifier.fillMaxWidth()
     )
 }
 
@@ -38,7 +38,7 @@ fun DisplayNormalText(text: String) {
         text = text,
         color = Color.Magenta,
         style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(6.dp)
+        modifier = Modifier.padding(4.dp)
     )
 }
 
@@ -152,14 +152,13 @@ fun MainScreen() {
     student.coursesTaken.add(CourseTaken("ECO 380", "09:25", "10:40", "T", 3))
 
     Column(
-        modifier = Modifier.padding(20.dp)
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxSize()
     ) {
         // Display student information
         DisplayStudentInfo(student)
-        Spacer(
-            modifier = Modifier
-                .padding(20.dp)
-        ) // Add a Spacer for some separation
+
         // Display student schedule
         DisplayStudentSchedule(student)
         // Display action buttons
