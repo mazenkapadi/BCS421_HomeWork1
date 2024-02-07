@@ -4,7 +4,7 @@ class Student(
     // Properties representing details of a student
     var name: String,                    // Name of the student
     var major: String,                   // Major of the student
-    var coursesTaken: MutableList<CourseTaken> = mutableListOf()  // List to store courses taken by the student
+    var coursesTaken: List<CourseTaken> = listOf()  // List to store courses taken by the student
 ) {
     // Method to calculate the total credits from the list of courses taken
     fun totalCredits(): Int {

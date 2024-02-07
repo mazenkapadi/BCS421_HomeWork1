@@ -142,15 +142,17 @@ fun DisplayButtons(student: Student) {
 // Main screen composition
 @Composable
 fun MainScreen() {
-    val student = Student("Mazen Kapadi", "Computer Science")
-    // Adding courses to the student's schedule
-    student.coursesTaken.add(CourseTaken("BCS 421", "10:50", "12:05", "MW", 3))
-    student.coursesTaken.add(CourseTaken("CSC 321", "08:00", "09:25", "MW", 3))
-    student.coursesTaken.add(CourseTaken("CSC 343", "13:40", "14:55", "T", 3))
-    student.coursesTaken.add(CourseTaken("CSC 363", "12:15", "13:30", "TR", 3))
-    student.coursesTaken.add(CourseTaken("ECO 365", "09:25", "10:40", "W", 3))
-    student.coursesTaken.add(CourseTaken("ECO 380", "09:25", "10:40", "T", 3))
-
+    val student = Student(
+        "Mazen Kapadi", "Computer Science", listOf(
+            // Adding courses to the student's schedule
+            CourseTaken("BCS 421", "10:50", "12:05", "MW", 3),
+            CourseTaken("CSC 321", "08:00", "09:25", "MW", 3),
+            CourseTaken("CSC 343", "13:40", "14:55", "T", 3),
+            CourseTaken("CSC 363", "12:15", "13:30", "TR", 3),
+            CourseTaken("ECO 365", "09:25", "10:40", "W", 3),
+            CourseTaken("ECO 380", "09:25", "10:40", "T", 3),
+        )
+    )
     Column(
         modifier = Modifier
             .padding(10.dp)
